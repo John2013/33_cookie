@@ -1,0 +1,17 @@
+<page-header>
+  <div class="header clearfix">
+    <nav>
+      <ul class="nav nav-pills pull-right main-menu">
+        <li id="cars-page" role="presentation" class="active"><a href="#/">Мои автомобили</a></li>
+        <li id="signup-page" role="presentation"><a href="#/signup">Регистрация</a></li>
+      </ul>
+    </nav>
+    <h3 class="text-muted">ПомойАвто</h3>
+  </div>
+  <script type="text/javascript">
+    this.on('mount', function () {
+      $(".main-menu > li").removeClass('active')
+      $("#" + opts.page_name).addClass('active')
+    })
+  </script>
+</page-header>

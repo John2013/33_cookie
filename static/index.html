@@ -120,16 +120,8 @@
 </head>
 <body>
   <div class="container">
-    <div class="header clearfix">
-      <nav>
-        <ul class="nav nav-pills pull-right">
-          <!-- TODO вынести шапку в riot tag и добавить логику -->
-          <li role="presentation" class="active"><a href="#/">Мои автомобили</a></li>
-          <li role="presentation"><a href="#/signup">Регистрация</a></li>
-        </ul>
-      </nav>
-      <h3 class="text-muted">ПомойАвто</h3>
-    </div>
+    <div id="header-container"></div>
+
 
     <div id="page-container"></div>
 
@@ -143,6 +135,7 @@
   <!-- custom riot tags -->
   <script type="riot/tag" src="/pages/signup-page.tag.html"></script>
   <script type="riot/tag" src="/pages/cars-page.tag.html"></script>
+  <script type="riot/tag" src="/pages/page-header.tag.html"></script>
 
   <script src="/vendor/navigo.js"></script><!-- router -->
   <script src="/vendor/fetch.js"></script><!-- uses isomorfic fetch for IE support -->
@@ -150,35 +143,42 @@
   <script type="text/javascript">
     window.getAPIUrl = function(endpoint){
       if (endpoint.startsWith('/'))
-        endpoint = endpoint.substring(1)
+        endpoint = endpoint.substring(1);
 
-      // return 'http://localhost:8080/' + endpoint // Uncomment to enable local API gateway
+      // return 'http://localhost:8000/' + endpoint // Uncomment to enable local API gateway
       return 'http://api.33_cookie.devman.org/' + endpoint
     }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/riot@3.6/riot+compiler.min.js"></script>
   <script>
   function main(){
-    var mountPoint = document.getElementById('page-container')
+    var mountPoint = document.getElementById('page-container');
+    var headerContainer = document.getElementById('header-container');
 
     // initialize JS router
-    var root = null
-    var useHash = true
-    var router = new Navigo(root, useHash)
+    var root = null;
+    var useHash = true;
+    var router = new Navigo(root, useHash);
 
     window.go2page = function(url){
       router.navigate(url);
-    }
+    };
+
+    mountHeader = function(page_name) {
+      riot.mount(headerContainer, 'page-header', {page_name: page_name});
+    };
 
     router.on({
       // docs live here https://github.com/krasimir/navigo
       '/signup': function(){
-        riot.mount(mountPoint, 'signup-page', {})
+        riot.mount(mountPoint, 'signup-page', {});
+        mountHeader('signup-page');
       },
 
       '/': function(){
-        riot.mount(mountPoint, 'cars-page', {})
-      },
+        riot.mount(mountPoint, 'cars-page', {});
+        mountHeader('cars-page');
+      }
     }).resolve();
 
   }
