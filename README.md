@@ -8,7 +8,7 @@ Example of frontend launch on Linux, Python 3.5:
 
 ```bash
 cd static/
-python3 -m http.server
+python -m http.server 9000 # or python3
 ```
 
 Open page [localhost:9000](http://localhost:9000) in browser.
